@@ -2,9 +2,9 @@ package com.sovanden.java.project.phoneshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sovanden.java.project.phoneshop.dto.BrandDTO;
@@ -19,7 +19,7 @@ public class BrandController {
 	@Autowired
 	private BrandService brandService;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	public ResponseEntity<?> create(@RequestBody BrandDTO brandDTO) {
 		Brand brand = Mapper.toBrand(brandDTO);
 		brand = brandService.create(brand);
