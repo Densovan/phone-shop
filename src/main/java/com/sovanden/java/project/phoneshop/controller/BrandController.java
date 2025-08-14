@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sovanden.java.project.phoneshop.dto.BrandDTO;
 import com.sovanden.java.project.phoneshop.entity.Brand;
+import com.sovanden.java.project.phoneshop.mapper.BrandMapper;
 import com.sovanden.java.project.phoneshop.service.BrandService;
-import com.sovanden.java.project.phoneshop.service.util.Mapper;
 
 @RestController
 @RequestMapping("brands")
@@ -24,22 +24,24 @@ public class BrandController {
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody BrandDTO brandDTO) {
-		Brand brand = Mapper.toBrand(brandDTO);
+//		Brand brand = Mapper.toBrand(brandDTO);
+		Brand brand = BrandMapper.INSTANCE.toBrand(brandDTO);
 		brand = brandService.create(brand);
-		return ResponseEntity.ok(Mapper.toBrandDTO(brand));
+		return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDTO(brand));
 	}
 
 	@GetMapping("{id}")
 	public ResponseEntity<?> getOneBrand(@PathVariable("id") Integer brandId) {
 		Brand brand = brandService.getById(brandId);
-		return ResponseEntity.ok(Mapper.toBrandDTO(brand));
+		return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDTO(brand));
 	}
 
 	@PutMapping("{id}")
 	public ResponseEntity<?> updateBrand(@PathVariable("id") Integer brandId, @RequestBody BrandDTO updateBrandDTO) {
-		Brand brand = Mapper.toBrand(updateBrandDTO);
+//		Brand brand = Mapper.toBrand(updateBrandDTO);
+		Brand brand = BrandMapper.INSTANCE.toBrand(updateBrandDTO);
 		Brand updateBrand = brandService.update(brandId, brand);
-		return ResponseEntity.ok(Mapper.toBrandDTO(updateBrand));
+		return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDTO(updateBrand));
 	}
 
 }
