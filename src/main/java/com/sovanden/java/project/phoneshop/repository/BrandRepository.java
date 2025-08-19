@@ -13,4 +13,6 @@ public interface BrandRepository extends JpaRepository<Brand, Integer>, JpaSpeci
 
 	List<Brand> findByNameContainingIgnoreCase(String name);
 
+	List<Brand> findByNameLike(String name);
+
 }
