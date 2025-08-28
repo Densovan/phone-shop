@@ -9,9 +9,9 @@ import com.sovanden.java.project.phoneshop.entity.Model;
 import com.sovanden.java.project.phoneshop.service.BrandService;
 
 @Mapper(componentModel = "spring", uses = { BrandService.class })
-public interface ModelMapper {
+public interface ModelEntityMapper {
 
-	ModelMapper INSTANCE = Mappers.getMapper(ModelMapper.class);
+	ModelEntityMapper INSTANCE = Mappers.getMapper(ModelEntityMapper.class);
 
 	@Mapping(target = "brand", source = "brandId")
 	Model toModel(ModelDTO dto);
@@ -19,10 +19,10 @@ public interface ModelMapper {
 	@Mapping(target = "brandId", source = "brand.id")
 	ModelDTO toModelDTO(Model model);
 
-//	default Brand toBrand(Integer brId) {
-//		Brand brand = new Brand();
-//		brand.setId(brId);
-//		return brand;
-//	}
+	// default Brand toBrand(Integer brId) {
+	// Brand brand = new Brand();
+	// brand.setId(brId);
+	// return brand;
+	// }
 
 }

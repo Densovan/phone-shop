@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sovanden.java.project.phoneshop.dto.ModelDTO;
 import com.sovanden.java.project.phoneshop.entity.Model;
-import com.sovanden.java.project.phoneshop.mapper.ModelMapper;
+import com.sovanden.java.project.phoneshop.mapper.ModelEntityMapper;
 import com.sovanden.java.project.phoneshop.service.ModelService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class ModelController {
 
 	private final ModelService modelService;
-	private final ModelMapper modelMapper;
+	private final ModelEntityMapper modelMapper;
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody ModelDTO modelDTO) {
