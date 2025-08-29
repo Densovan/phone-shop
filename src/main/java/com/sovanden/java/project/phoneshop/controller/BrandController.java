@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sovanden.java.project.phoneshop.dto.BrandDTO;
-import com.sovanden.java.project.phoneshop.dto.ModelDTO;
 import com.sovanden.java.project.phoneshop.dto.PageDTO;
 import com.sovanden.java.project.phoneshop.entity.Brand;
 import com.sovanden.java.project.phoneshop.entity.Model;

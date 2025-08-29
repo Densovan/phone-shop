@@ -1,0 +1,56 @@
+databaseChangeLog:
+- changeSet:
+    id: 1756479243264-1
+    author: sovanden (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: brands_pkey
+            name: brand_id
+            type: BIGINT
+        - column:
+            name: brand_name
+            type: VARCHAR(255)
+        tableName: brands
+- changeSet:
+    id: 1756479243264-2
+    author: sovanden (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: models_pkey
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(255)
+        - column:
+            name: brand_id
+            type: BIGINT
+        tableName: models
+- changeSet:
+    id: 1756479243264-3
+    author: sovanden (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: brand_id
+        baseTableName: models
+        constraintName: fk_models_brands
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: NO ACTION
+        onUpdate: NO ACTION
+        referencedColumnNames: brand_id
+        referencedTableName: brands
+        validate: true
+
