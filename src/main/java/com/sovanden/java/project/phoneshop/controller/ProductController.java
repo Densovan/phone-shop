@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sovanden.java.project.phoneshop.dto.ProductDTO;
+import com.sovanden.java.project.phoneshop.dto.ProductImportDTO;
 import com.sovanden.java.project.phoneshop.entity.Product;
 import com.sovanden.java.project.phoneshop.mapper.ProductMapper;
 import com.sovanden.java.project.phoneshop.service.ProductService;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j // Lombok annotation for logger
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/product")
+@RequestMapping("product")
 public class ProductController {
 
     private final ProductService productService;
@@ -39,4 +40,11 @@ public class ProductController {
         product = productService.create(product);
         return ResponseEntity.ok(product);
     }
+
+    @PostMapping("/importProduct")
+    public ResponseEntity<?> importProduct(@RequestBody ProductImportDTO importDTO) {
+        productService.importProduct(importDTO);
+        return ResponseEntity.ok().build();
+    }
+
 }
