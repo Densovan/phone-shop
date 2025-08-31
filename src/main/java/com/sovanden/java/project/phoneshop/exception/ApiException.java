@@ -6,8 +6,9 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor // Generates constructor for final fields
+@RequiredArgsConstructor
 public class ApiException extends RuntimeException {
 	private final HttpStatus status;
 	private final String message;
+
 }

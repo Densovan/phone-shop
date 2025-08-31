@@ -16,62 +16,81 @@ import com.sovanden.java.project.phoneshop.service.spec.BrandFilter;
 import com.sovanden.java.project.phoneshop.service.spec.BrandSpec;
 import com.sovanden.java.project.phoneshop.service.util.PageUtil;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
 	@Autowired
-	private BrandRepository brandRepository;
+	private final BrandRepository brandRepository;
 
 	@Override
 	public Brand create(Brand brand) {
-		// TODO Auto-generated method stub
 		return brandRepository.save(brand);
-
 	}
 
 	@Override
-	public Brand getById(Integer id) {
-
-		return brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand", id));
+	public Brand getById(Long id) {
+		return brandRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Brand", id));
 	}
 
 	@Override
-	public Brand update(Integer id, Brand brandUpdate) {
+	public Brand update(Long id, Brand brandUpdate) {
 		Brand brand = getById(id);
 		brand.setName(brandUpdate.getName()); // @TODO improve update
 		return brandRepository.save(brand);
 	}
 
-//	@Override
-//	public List<Brand> getBrands() {
-//		return brandRepository.findAll();
-//
-//	}
-
-	// filter by name
 	@Override
 	public List<Brand> getBrands(String name) {
-		return brandRepository.findByNameContainingIgnoreCase(name);
-
+		// return brandRepository.findByNameLike("%"+name + "%");
+		// return brandRepository.findByNameContaining(name);
+		return null;
 	}
+
+	/*
+	 * @Override
+	 * public List<Brand> getBrands(Map<String, String> params) {
+	 * BrandFilter brandFilter = new BrandFilter();
+	 * 
+	 * if(params.containsKey("name")) {
+	 * String name = params.get("name");
+	 * brandFilter.setName(name);
+	 * }
+	 * 
+	 * if(params.containsKey("id")) {
+	 * String id = params.get("id");
+	 * brandFilter.setId(Integer.parseInt(id));
+	 * }
+	 * 
+	 * BrandSpec brandSpec = new BrandSpec(brandFilter);
+	 * 
+	 * return brandRepository.findAll(brandSpec);
+	 * 
+	 * }
+	 */
 
 	@Override
 	public Page<Brand> getBrands(Map<String, String> params) {
 		BrandFilter brandFilter = new BrandFilter();
 
-		// @TODO add to function for pageable;
 		if (params.containsKey("name")) {
 			String name = params.get("name");
 			brandFilter.setName(name);
 		}
+
 		if (params.containsKey("id")) {
 			String id = params.get("id");
-			brandFilter.setId(Integer.parseInt(id));
+			brandFilter.setId(Long.parseLong(id));
 		}
-		int pageNumber = PageUtil.DEFAULT_PAGE_NUMBER;
+		// @TODO add to a function for pageable
 		int pageLimit = PageUtil.DEFAULT_PAGE_LIMIT;
 		if (params.containsKey(PageUtil.PAGE_LIMIT)) {
 			pageLimit = Integer.parseInt(params.get(PageUtil.PAGE_LIMIT));
 		}
+
+		int pageNumber = PageUtil.DEFAULT_PAGE_NUMBER;
 		if (params.containsKey(PageUtil.PAGE_NUMBER)) {
 			pageNumber = Integer.parseInt(params.get(PageUtil.PAGE_NUMBER));
 		}
@@ -79,10 +98,13 @@ public class BrandServiceImpl implements BrandService {
 		BrandSpec brandSpec = new BrandSpec(brandFilter);
 
 		Pageable pageable = PageUtil.getPageable(pageNumber, pageLimit);
+
+		// Pageable
+		// Page<Brand> findAll = brandRepository.findAll(brandSpec,
+		// org.springframework.data.domain.Pageable.ofSize(0));
+
 		Page<Brand> page = brandRepository.findAll(brandSpec, pageable);
-
 		return page;
-
 	}
 
 }
