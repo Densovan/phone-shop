@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
 
 @Data
@@ -39,6 +40,7 @@ public class Product {
     @JoinColumn(name = "color_id")
     private Color color;
 
+    @DecimalMin(value = "0.000001", message = "Price must be greater than 0")
     @Column(name = "sale_price")
     private BigDecimal salePrice;
 

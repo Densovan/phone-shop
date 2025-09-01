@@ -1,7 +1,10 @@
 package com.sovanden.java.project.phoneshop.service.impl;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 
+import com.sovanden.java.project.phoneshop.dto.PriceDTO;
 import com.sovanden.java.project.phoneshop.dto.ProductImportDTO;
 import com.sovanden.java.project.phoneshop.entity.Product;
 import com.sovanden.java.project.phoneshop.entity.ProductImportHistory;
@@ -51,6 +54,13 @@ public class ProductServiceImpl implements ProductService {
         // save product import history
         ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
         productImportHistoryRepository.save(importHistory);
+    }
+
+    @Override
+    public void setSalePrice(Long productId, BigDecimal price) {
+        Product product = this.getById(productId); // check if product exists
+        product.setSalePrice(price);
+        productRepository.save(product);
     }
 
 }

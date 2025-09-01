@@ -1,11 +1,13 @@
 package com.sovanden.java.project.phoneshop.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sovanden.java.project.phoneshop.dto.PriceDTO;
 import com.sovanden.java.project.phoneshop.dto.ProductDTO;
 import com.sovanden.java.project.phoneshop.dto.ProductImportDTO;
 import com.sovanden.java.project.phoneshop.entity.Product;
@@ -18,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j // Lombok annotation for logger
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("product")
+@RequestMapping("products")
 public class ProductController {
 
     private final ProductService productService;
@@ -44,6 +46,12 @@ public class ProductController {
     @PostMapping("/importProduct")
     public ResponseEntity<?> importProduct(@RequestBody ProductImportDTO importDTO) {
         productService.importProduct(importDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("{productId}/setSalePrice")
+    public ResponseEntity<?> setSalePrice(@PathVariable Long productId, @RequestBody PriceDTO priceDTO) {
+        productService.setSalePrice(productId, priceDTO.getPrice());
         return ResponseEntity.ok().build();
     }
 
