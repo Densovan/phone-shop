@@ -1,10 +1,18 @@
 package com.sovanden.java.project.phoneshop.service.impl;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Iterator;
 
+import com.sovanden.java.project.phoneshop.exception.ApiException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.sovanden.java.project.phoneshop.dto.PriceDTO;
 import com.sovanden.java.project.phoneshop.dto.ProductImportDTO;
 import com.sovanden.java.project.phoneshop.entity.Product;
 import com.sovanden.java.project.phoneshop.entity.ProductImportHistory;
@@ -15,6 +23,7 @@ import com.sovanden.java.project.phoneshop.repository.ProductRepository;
 import com.sovanden.java.project.phoneshop.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Service
@@ -61,6 +70,32 @@ public class ProductServiceImpl implements ProductService {
         Product product = this.getById(productId); // check if product exists
         product.setSalePrice(price);
         productRepository.save(product);
+    }
+
+    @Override
+    public void uploadProduct(MultipartFile file) {
+
+        try {
+            Workbook workbook = new XSSFWorkbook(file.getInputStream());
+            Sheet sheet = workbook.getSheet("products");
+            Iterator<Row> rowIterator = sheet.iterator();
+            rowIterator.next(); //: @TODO improve checking error
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Cell cellModelId = row.getCell(0);
+                Long modelId = (long) cellModelId.getNumericCellValue();
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Product findByModelIdAndColorId(Long modelId, Long colorId) {
+        String text = "Product with model id =%s and color id = %d was not found";
+        return productRepository.findByModelIdAndColorId(modelId, colorId)
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, text.formatted(modelId, colorId)));
     }
 
 }

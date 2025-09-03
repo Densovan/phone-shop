@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import com.sovanden.java.project.phoneshop.dto.ProductImportDTO;
 import com.sovanden.java.project.phoneshop.entity.Product;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductService {
 
@@ -14,4 +15,8 @@ public interface ProductService {
     void importProduct(ProductImportDTO productImportDTO);
 
     void setSalePrice(Long productId, BigDecimal price);
+
+    void uploadProduct(MultipartFile file);
+
+    Product findByModelIdAndColorId(Long modelId, Long colorId);
 }

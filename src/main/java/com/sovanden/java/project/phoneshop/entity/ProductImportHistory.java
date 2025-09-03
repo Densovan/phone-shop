@@ -3,6 +3,7 @@ package com.sovanden.java.project.phoneshop.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class ProductImportHistory {
     private Long id;
 
     @Column(name = "date_import")
+    @JsonFormat(pattern = "yyyy-mm-dd HH:MM:ss")
     private LocalDateTime dateImport;
 
     @Column(name = "import_unit")

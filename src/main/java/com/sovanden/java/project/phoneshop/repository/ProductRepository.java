@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import com.sovanden.java.project.phoneshop.entity.Product;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
-
+    Optional<Product> findByModelIdAndColorId(Long ModelId, Long ColorId);
 }

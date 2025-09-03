@@ -1,7 +1,7 @@
 package com.sovanden.java.project.phoneshop.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -20,5 +20,5 @@ public class ProductImportDTO {
     private BigDecimal importPrice;
 
     @NotNull(message = "Import date can't be null")
-    private LocalDate importDate;
+    private LocalDateTime importDate;
 }
