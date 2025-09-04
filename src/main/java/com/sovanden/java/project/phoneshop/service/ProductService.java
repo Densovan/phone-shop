@@ -18,5 +18,5 @@ public interface ProductService {
 
     void uploadProduct(MultipartFile file);
 
-    Product findByModelIdAndColorId(Long modelId, Long colorId);
+    Product getByModelIdAndColorId(Long modelId, Long colorId);
 }
