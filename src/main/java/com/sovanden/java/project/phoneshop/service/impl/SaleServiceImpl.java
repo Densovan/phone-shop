@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.sovanden.java.project.phoneshop.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +73,38 @@ public class SaleServiceImpl implements SaleService {
 
     }
 
+    @Override
+    public Sale getById(Long saleId) {
+        return saleRepository.findById(saleId).orElseThrow(() -> new ResourceNotFoundException("Sale", saleId));
+    }
+
+    @Override
+    public void cancelSale(Long saleId) {
+        //update sale status
+        Sale sale = this.getById(saleId);
+        sale.setActive(false);
+        saleRepository.save(sale);
+
+        //update stock or return stock back after cancel
+        List<SaleDetail> saleDetails = saleDetailRepository.findBySaleId(saleId);
+
+        List<Long> productIds = saleDetails.stream()
+                .map(sd -> sd.getProduct().getId())
+                .toList();
+
+        List<Product> products = productRepository.findAllById(productIds);
+
+        Map<Long, Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getId, Function.identity()));
+
+        saleDetails.forEach(sd -> {
+            Product product = productMap.get(sd.getProduct().getId());
+            product.setAvailableUnit(product.getAvailableUnit() + sd.getUnit());
+            productRepository.save(product);
+        });
+
+    }
+
     @SuppressWarnings("unused")
     private void validate(SaleDTO saleDTO) {
         saleDTO.getProducts().forEach(ps -> {
@@ -86,8 +119,8 @@ public class SaleServiceImpl implements SaleService {
     @SuppressWarnings("unused")
     private void validateV2(SaleDTO saleDTO) {
         List<Long> productIds = saleDTO.getProducts().stream().map(product -> product.getProductId()).toList(); // lambda
-                                                                                                                // expression
-                                                                                                                // explicit
+        // expression
+        // explicit
         // List<Long> productIds =
         // saleDTO.getProducts().stream().map(ProductSoldDTO::getProductId).toList();
         // method reference (shorthand)

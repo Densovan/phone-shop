@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.sovanden.java.project.phoneshop.entity.SaleDetail;
 
+import java.util.List;
+
 @Repository
 public interface SaleDetailRepository extends JpaRepository<SaleDetail, Long> {
-
+   List<SaleDetail> findBySaleId(Long saleId);
 }
