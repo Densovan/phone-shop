@@ -1,5 +1,6 @@
 package com.sovanden.java.project.phoneshop.service.impl;
 
+import com.sovanden.java.project.phoneshop.dto.ProductReportDTO;
 import com.sovanden.java.project.phoneshop.projection.ProductSold;
 import com.sovanden.java.project.phoneshop.repository.SaleRepository;
 import com.sovanden.java.project.phoneshop.service.ReportService;
@@ -17,6 +18,11 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<ProductSold> getProductSold(LocalDate startDate, LocalDate endDate) {
-        return saleRepository.findProductSold(startDate,endDate);
+        return saleRepository.findProductSold(startDate, endDate);
+    }
+
+    @Override
+    public List<ProductReportDTO> getProductReport(LocalDate startDate, LocalDate endDate) {
+        return List.of();
     }
 }
